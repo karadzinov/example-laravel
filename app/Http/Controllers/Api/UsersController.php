@@ -69,7 +69,7 @@ class UsersController extends Controller
      * )
      */
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $user = User::FindOrFail($id);
         $user = new UserResource($user);
