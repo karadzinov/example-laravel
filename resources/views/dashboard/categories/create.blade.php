@@ -2,8 +2,17 @@
 @section('content')
     <div class="row">
         <div class="col-8">
-            <form action="{{ route('categories.store') }}" method="post">
+            <form action="{{ route('categories.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
+
+
+
+
+                <div class="input-group input-group-outline my-3 ">
+                    <label class="form-label">Image</label>
+                    <input type="file" class="form-control" name="image">
+                </div>
+
                 <div class="input-group input-group-outline my-3 ">
                     <label class="form-label">Name</label>
                     <input type="text" class="form-control" name="name" onfocus="focused(this)"

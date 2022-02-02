@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Categories;
+use App\Http\Controllers\Helper\ImageStore;
 
 class CategoriesController extends Controller
 {
@@ -42,9 +43,17 @@ class CategoriesController extends Controller
     {
 
         $parent_id = $request->has('parent_id') ? $request->get('parent_id') : null;
+
+        $imageObj = new ImageStore($request, 'categories');
+
+        $image = $imageObj->imageStore();
+
+
+
         $category = Categories::create([
             'name' => $request->get('name'),
-            'parent_id' => $parent_id
+            'parent_id' => $parent_id,
+            'image' => $image
         ]);
 
         if(!$parent_id) {
@@ -90,12 +99,18 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $imageObj = new ImageStore($request, 'categories');
+
+        $image = $imageObj->imageStore();
+
+
         $name = $request->get('name');
         $category = Categories::FindOrFail($id);
         $parent_id = $request->has('parent_id') ? $request->get('parent_id') : null;
 
         if(!$parent_id) {
             $category->name = $name;
+            $category->image = $image;
             $category->saveAsRoot();
             $category->save();
             return redirect()->back();
@@ -103,6 +118,7 @@ class CategoriesController extends Controller
 
         $input['name'] = $name;
         $input['parent_id'] = $parent_id;
+        $input['image'] = $image;
         $category->fill($input)->save();
         return redirect()->back();
 

@@ -17,7 +17,8 @@ class Categories extends Model
         'name',
         'parent_id',
         '_lft',
-        '_rgt'
+        '_rgt',
+        'image'
     ];
 
     protected static $depth = 0;
