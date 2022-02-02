@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Status;
 use App\Mail\TestMail;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\PingdevsMail;
 
 class HomeController extends Controller
 {
@@ -19,6 +20,12 @@ class HomeController extends Controller
        // $this->middleware('auth');
     }
 
+    public function mail()
+    {
+        $ip = \request()->ip();
+       // Mail::to('martin@pingdevs.com')->send(new PingdevsMail('Ова е пораката од меилот '. $ip));
+        return view('welcome');
+    }
     /**
      * Show the application dashboard.
      *
