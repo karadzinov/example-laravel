@@ -15,7 +15,7 @@
                 </div>
                 <div class="card-body">
 
-                    <form role="form" class="text-start" method="post" action="/products">
+                    <form role="form" class="text-start" method="post" action="/admin/products">
                         @csrf
 
 

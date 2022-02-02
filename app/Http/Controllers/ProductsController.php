@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendToAll;
 
 class ProductsController extends Controller
 {
@@ -48,11 +50,18 @@ class ProductsController extends Controller
 
 
 
+
         $product = Product::create([
             'name' => $name,
             'price' => $price,
             'user_id' => $user_id
         ]);
+
+        $users = User::all();
+        foreach($users as $user) {
+            Mail::to($user->email)->send(new SendToAll($product));
+        }
+
 
         return redirect()->route('products.index');
     }

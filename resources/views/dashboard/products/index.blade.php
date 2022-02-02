@@ -8,7 +8,7 @@
 
 
 
-    <a href="/products/create" class="btn btn-info">Create Product</a>
+    <a href="/admin/products/create" class="btn btn-info">Create Product</a>
     <table class="table">
         <thead></thead>
         <tr>
@@ -25,7 +25,7 @@
         @foreach($products as $product)
             <tr>
                 <td>{{ $product->id }}</td>
-                <td><a href="/products/{{ $product->id }}">{{ $product->name }}</a></td>
+                <td><a href="/admin/products/{{ $product->id }}">{{ $product->name }}</a></td>
                 <td>{{ $product->price }}</td>
                 <td>{{ $product->created_at }}</td>
                 <td>{{ $product->user->name }}</td>

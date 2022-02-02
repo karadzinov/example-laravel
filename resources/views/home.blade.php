@@ -21,7 +21,7 @@
 
 
                         <div class="input-group mb-3">
-                            <form action="/create-status" method="post" class="form-control">
+                            <form action="/admin/create-status" method="post" class="form-control">
                                 @csrf
                                 <input type="text" class="form-control" name="description"
                                        aria-describedby="button-addon">
@@ -54,7 +54,7 @@
                             {{ $s->description }}
 
                             <div class="like">
-                                <form action="/status/{{ $s->id }}/like" method="post">
+                                <form action="/admin/status/{{ $s->id }}/like" method="post">
                                     @csrf
                                     <button type="submit" class="btn">👍</button>
                                 </form>
@@ -62,7 +62,7 @@
 
 
                             <div class="like">
-                                <form action="/status/{{ $s->id }}/unlike" method="post">
+                                <form action="/admin/status/{{ $s->id }}/unlike" method="post">
                                     @csrf
                                     <button type="submit" class="btn">👎</button>
                                 </form>

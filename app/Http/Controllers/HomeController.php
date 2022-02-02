@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Status;
+use App\Mail\TestMail;
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -42,7 +44,15 @@ class HomeController extends Controller
 
     public function likeStatus(Status $status)
     {
-        $status->likes()->syncWithoutDetaching(\Auth::user()->id);
+        $status->likes()->syncWithoutDetaching(auth()->user()->id);
+
+        $userName = auth()->user()->name;
+        $message = 'User '. $userName .' liked your status: '. $status->description;
+
+
+       Mail::to('martin@pingdevs.com')->send(new TestMail($userName, $message));
+
+
         return redirect()->route('home');
     }
 
