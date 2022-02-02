@@ -38,6 +38,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function() {
     Route::get('/users/{user}/products', [App\Http\Controllers\UserController::class, 'getProducts'])->name('user.products');
 
     Route::resource('/products', App\Http\Controllers\ProductsController::class);
+
+    Route::resource('/categories', App\Http\Controllers\CategoriesController::class);
+    Route::get('/categories/{id}/delete', [App\Http\Controllers\CategoriesController::class, 'destroy'])->name('categories.delete');
 });
 
 
