@@ -4,21 +4,21 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class HelloWorld extends Command
+class EchoName extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-        protected $signature = 'hello';
+    protected $signature = 'echo:name {name}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Returns Hello World';
+    protected $description = 'Display name';
 
     /**
      * Create a new command instance.
@@ -37,7 +37,7 @@ class HelloWorld extends Command
      */
     public function handle()
     {
-        dd("Hello World");
+        dd($this->argument('name'));
         return 0;
     }
 }
