@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendToAll;
+use App\Jobs\ProcessProducts;
 
 class ProductsController extends Controller
 {
@@ -39,7 +40,7 @@ class ProductsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -49,8 +50,6 @@ class ProductsController extends Controller
         $user_id = $request->get('user_id');
 
 
-
-
         $product = Product::create([
             'name' => $name,
             'price' => $price,
@@ -58,7 +57,7 @@ class ProductsController extends Controller
         ]);
 
         $users = User::all();
-        foreach($users as $user) {
+        foreach ($users as $user) {
             Mail::to($user->email)->send(new SendToAll($product));
         }
 
@@ -69,7 +68,7 @@ class ProductsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -80,7 +79,7 @@ class ProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -95,8 +94,8 @@ class ProductsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -114,7 +113,7 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -123,5 +122,16 @@ class ProductsController extends Controller
         $product->delete();
 
         return redirect()->back();
+    }
+
+
+    public function trigerJob()
+    {
+        $products = Product::all();
+        foreach ($products as $product) {
+            ProcessProducts::dispatch($product)->onQueue('high');
+        }
+
+        return true;
     }
 }

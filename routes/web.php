@@ -34,6 +34,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function() {
     Route::post('/status/{status}/unlike',  [App\Http\Controllers\HomeController::class, 'unlike'])->name('unlike.status');
 
 
+    Route::get('/products/job', [App\Http\Controllers\ProductsController::class, 'trigerJob'])->name('products.job');
+
     Route::resource('/users', App\Http\Controllers\UserController::class);
     Route::get('/users/{user}/products', [App\Http\Controllers\UserController::class, 'getProducts'])->name('user.products');
 
@@ -41,6 +43,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function() {
 
     Route::resource('/categories', App\Http\Controllers\CategoriesController::class);
     Route::get('/categories/{id}/delete', [App\Http\Controllers\CategoriesController::class, 'destroy'])->name('categories.delete');
+
+
+
 });
 
 
