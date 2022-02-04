@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MyEvent;
 use Illuminate\Http\Request;
 use App\Models\Status;
 use App\Mail\TestMail;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PingdevsMail;
+use App\Events\ChatEvent;
+use App\Models\Message;
 
 class HomeController extends Controller
 {
@@ -73,5 +76,31 @@ class HomeController extends Controller
     public function checkRole()
     {
         dd('Ova e rutata');
+    }
+
+
+    public function chat()
+    {
+
+        $messages = Message::all();
+
+        $data = ['messages' => $messages];
+        return view('dashboard.chat.index')->with($data);
+    }
+
+
+    public function sendEvent(Request $request)
+    {
+        $message = $request->get('message');
+
+        Message::create([
+            'user_id' => auth()->user()->id,
+            'message' => $message,
+            'name' => auth()->user()->name
+        ]);
+
+
+        event(new ChatEvent(auth()->user(), $message));
+        return redirect()->back();
     }
 }

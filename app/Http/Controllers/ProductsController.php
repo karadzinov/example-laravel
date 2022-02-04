@@ -129,9 +129,9 @@ class ProductsController extends Controller
     {
         $products = Product::all();
         foreach ($products as $product) {
-            ProcessProducts::dispatch($product)->onQueue('high');
+            ProcessProducts::dispatch($product)->delay(10);
         }
 
-        return true;
+        return response()->json(['success' => true, 200]);
     }
 }
