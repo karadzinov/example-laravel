@@ -136,7 +136,7 @@ class UserController extends Controller
         $input = $request->all();
 
         if($request->has('password')) {
-            $input['password'] = bcrypt($request->get('passwordd'));
+            $input['password'] = bcrypt($request->get('password'));
         }
 
         $user->fill($input)->save();
