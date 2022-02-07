@@ -26,7 +26,7 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function() {
 
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/chat', [App\Http\Controllers\HomeController::class, 'chat'])->name('chat');
     Route::post('/chat/send-event', [App\Http\Controllers\HomeController::class, 'sendEvent'])->name('chat');
 

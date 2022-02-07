@@ -6,6 +6,7 @@ use Faker\Provider\Image;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Controllers\Helper\ImageStore;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -39,6 +40,19 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'password' => 'required',
+            'email' => 'required|unique:users',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('admin/users/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         $name = $request->get('name');
         $email = $request->get('email');
         $password = $request->get('password');
@@ -105,6 +119,18 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'email' => 'required|unique:users',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         $user = User::Find($id);
 
         $input = $request->all();
